@@ -12,14 +12,14 @@ Connects to Azure CV service through Ballerina.
 ```ballerina
 import ballerina/config;
 import ballerina/io;
-import wso2/azurecv;
+import ballerinax/azure.cv;
 
-azurecv:Configuration config = {
+cv:Configuration config = {
     key: config:getAsString("KEY"),
     region: "eastus"
 };
 
-azurecv:Client cvClient = new(config);
+cv:Client cvClient = new(config);
 
 public function main(string... args) {
     var result = cvClient->ocr("https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Atomist_quote_from_Democritus.png/338px-Atomist_quote_from_Democritus.png");
