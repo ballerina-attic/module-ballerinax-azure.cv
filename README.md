@@ -20,7 +20,7 @@ First, import the `ballerinax/azure.cv` module into the Ballerina project.
 import ballerinax/azure.cv;
 ```
 
-In order for you to use the Azure CV Service Connector, first you need to create an Azure CV Service Connector client.
+In order for you to use the Azure CV service connector, first you need to create an Azure CV service connector configuration.
 
 ```ballerina
 cv:Configuration config = {
