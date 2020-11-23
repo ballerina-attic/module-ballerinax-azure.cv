@@ -17,13 +17,13 @@
 import ballerina/http;
 
 # Object to initialize the connection with Azure CV Service.
-public type Client client object {
+public client class Client {
 
     string key;
     string region;
     http:Client clientEP;
 
-    public function __init(Configuration config) {
+    public function init(Configuration config) {
         self.key = config.key;
         self.region = config.region;
         self.clientEP = new("https://" + self.region + ".api.cognitive.microsoft.com/vision/v2.0");
@@ -41,44 +41,44 @@ public type Client client object {
         } else {
             req.setBinaryPayload(input);
         }
-        var resp = self.clientEP->post("/ocr?language=unk&detectOrientation=true", req);
-        if resp is http:Response {
-            json result = check resp.getJsonPayload();
-            if resp.statusCode != 200 {
-                return error("ocr error", message = result.toString());
-            }
-            string text = "";
-            json[] regions = <json[]> result.regions;
-            int regionCount = regions.length();
-            int i = 0;
-            while i < regionCount {
-                json region = regions[i];
-                i = i + 1;
-                json[] lines = <json[]> region.lines;
-                int lineCount = lines.length();
-                int j = 0;
-                while j < lineCount {
-                    if j > 0 {
-                        text = text + "\n";
-                    }
-                    json line = lines[j];
-                    j = j + 1;
-                    json[] words = <json[]> line.words;
-                    int wordCount = words.length();
-                    int k = 0;
-                    while k < wordCount {
-                        if k > 0 {
-                            text = text + " ";
-                        }
-                        text = text + <string> words[k].text;
-                        k = k + 1;
-                    }                
-                }
-            }
-            return text;
-        } else {
-            return resp;
+        var response = self.clientEP->post("/ocr?language=unk&detectOrientation=true", req);
+        if response is error {
+            return response;
         }
-    }
 
-};
+        http:Response resp = <http:Response> response;
+        json result = check resp.getJsonPayload();
+        if resp.statusCode != 200 {
+            return error("ocr error", message = result.toString());
+        }
+        string text = "";
+        json[] regions = <json[]> result.regions;
+        int regionCount = regions.length();
+        int i = 0;
+        while i < regionCount {
+            json region = regions[i];
+            i = i + 1;
+            json[] lines = <json[]> region.lines;
+            int lineCount = lines.length();
+            int j = 0;
+            while j < lineCount {
+                if j > 0 {
+                    text = text + "\n";
+                }
+                json line = lines[j];
+                j = j + 1;
+                json[] words = <json[]> line.words;
+                int wordCount = words.length();
+                int k = 0;
+                while k < wordCount {
+                    if k > 0 {
+                        text = text + " ";
+                    }
+                    text = text + <string> words[k].text;
+                    k = k + 1;
+                }                
+            }
+        }
+        return text;
+    }
+}

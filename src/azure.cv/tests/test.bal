@@ -28,7 +28,7 @@ Client cvClient = new(config);
 function testOCR() {
     var result = cvClient->ocr("https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Atomist_quote_from_Democritus.png/338px-Atomist_quote_from_Democritus.png");
     if (result is error) {
-        test:assertFail(msg = <string> result.detail()?.message);
+        test:assertFail(msg = <string> result.detail().get("message"));
     } else {
         string expected = "NOTHING\nEXISTS\nEXCEPT\nATOMS\nAND EMPTY\nSPACE.\nEverything else\nis opinion.";
         test:assertTrue(result == expected);
