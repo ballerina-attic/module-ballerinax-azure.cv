@@ -51,34 +51,7 @@ public client class Client {
         if resp.statusCode != 200 {
             return error("ocr error", message = result.toString());
         }
-        string text = "";
-        json[] regions = <json[]> result.regions;
-        int regionCount = regions.length();
-        int i = 0;
-        while i < regionCount {
-            json region = regions[i];
-            i = i + 1;
-            json[] lines = <json[]> region.lines;
-            int lineCount = lines.length();
-            int j = 0;
-            while j < lineCount {
-                if j > 0 {
-                    text = text + "\n";
-                }
-                json line = lines[j];
-                j = j + 1;
-                json[] words = <json[]> line.words;
-                int wordCount = words.length();
-                int k = 0;
-                while k < wordCount {
-                    if k > 0 {
-                        text = text + " ";
-                    }
-                    text = text + <string> words[k].text;
-                    k = k + 1;
-                }                
-            }
-        }
-        return text;
+
+        return parseStringFromResponse(result);
     }
 }
