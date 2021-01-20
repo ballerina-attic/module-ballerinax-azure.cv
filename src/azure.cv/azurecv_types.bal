@@ -19,7 +19,7 @@
 # Azure CV Service configuration.
 # + key - The Azure CV subscription key
 # + region - The Azure region, e.g. "eastus", "westus"
-public type Configuration record {
+public type Configuration record {|
     string key;
     string region = AZURE_DEFAULT_REGION;
-};
+|};

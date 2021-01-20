@@ -5,7 +5,7 @@ Connects to Azure CV service through Ballerina.
 ## Compatibility
 | Ballerina Language Version 
 | -------------------------- 
-| 1.2.x                    
+| Swan Lake Preview5                    
 
 ## Sample
 
